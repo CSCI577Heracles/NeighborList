@@ -29,6 +29,8 @@ class ContainerInitializer(object):
             c.add_particle(1., 5., 0., 0.4, 0., 0.)
             c.add_particle(3., 5., 0., -0.4, 0., 0.)
 
+			c.init_nl()			# init neighborlist graph
+
         elif init_string == 'eight':
             lx = 10.
             ly = 10.

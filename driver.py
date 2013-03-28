@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 NUM_TIMESTEPS = 4000
 FRAME_RATE = 20
 DELTA_T = 0.01
-SQUEEZE = True
+SQUEEZE = False
 SQUEEZE_FACTOR = 0.997
 
 state_list = []
@@ -30,7 +30,7 @@ def circle( xy, radius, color="lightsteelblue", facecolor="green", alpha=.6, ax=
     e.set_facecolor( facecolor )
     e.set_alpha( alpha )
 
-c = ContainerInitializer.ContainerInitializer("square_lattice").getContainer()
+c = ContainerInitializer.ContainerInitializer("eight").getContainer()
 f = Force.Force(c)
 i = Integrator.Integrator(DELTA_T, f)
 
@@ -92,9 +92,9 @@ time = np.linspace(0, NUM_TIMESTEPS*DELTA_T, NUM_TIMESTEPS)
 plt.clf()
 plt.plot(time, pe_list)
 plt.ylabel('Potential Energy Per Particle')
-plt.title('PE - Tri-Lattice')
+plt.title('PE - Two Initial Condition')
 plt.xlabel('Time Units')
-#plt.savefig('prob2_pe.png')
+#plt.savefig('eight_pe_nnl.png')
 plt.show(block=True)
 
 plt.clf()

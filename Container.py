@@ -1,5 +1,5 @@
 import numpy as np
-
+import networkx as nx 	# graph library - not needed but I think there is a fancy way to compute neighbor edges here
 
 class Container(object):
 
@@ -19,6 +19,21 @@ class Container(object):
         self.Lx = 0.
         self.Ly = 0.
         self.Lz = 0.
+
+	def init_nl(self):
+		self.G = nx.Graph()
+		for element in list(enumerate(self.x)):
+			G.add_node(element[0])
+
+	def update_nl(self, dist):
+		self.G.remove_edges_from(G.edges())
+		for row in list(enumerate(self.dr())):
+			for col in list(enumerate(row[1])):
+				if col[1] > dist:
+					self.G.add_edge(row[0], col[0])
+
+	def neighbor(self, p):
+		return self.G.neighbors(p)
 
     @property
     def x(self):
@@ -87,8 +102,9 @@ class Container(object):
         return dz
 
     def dr(self):
-        # TODO: return dr here
-        pass
+		print "dr:"
+		print np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
+        return np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
 
 
 
