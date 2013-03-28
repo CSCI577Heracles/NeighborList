@@ -30,10 +30,19 @@ class Container(object):
 		for row in list(enumerate(self.dr())):
 			for col in list(enumerate(row[1])):
 				if col[1] > dist:
-					self.G.add_edge(row[0], col[0])
+					self.G.add_edge(row[0], col[0], x=self.x[row[0]]-self.x[col[0]], y=self.y[row[0]]-self.y[row[0]], z=0., r=col[1])
 
 	def neighbor(self, p):
 		return self.G.neighbors(p)
+
+	def x_dist(self, i, j):
+		return self.G.edge[i][j]['x']
+
+	def y_dist(self, i, j):
+		return self.G.edge[i][j]['y']
+
+	def r_dist(self, i, j):
+		return self.G.edge[i][j]['r']
 
     @property
     def x(self):
@@ -102,9 +111,9 @@ class Container(object):
         return dz
 
     def dr(self):
-		print "dr:"
-		print np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
-        return np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
+		#print "dr:"
+		#print np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
+        return (self.dx ** 2 + self.dy ** 2 + self.dz **2)
 
 
 

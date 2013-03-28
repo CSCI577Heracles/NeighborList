@@ -11,6 +11,11 @@ FRAME_RATE = 20
 DELTA_T = 0.01
 SQUEEZE = False
 SQUEEZE_FACTOR = 0.997
+NL = True 					# set True for Neighborlist, False for regular
+NL_UPDATE_RATE = 20
+NL_DIST = 2. * 2. ** (1./6.)
+
+
 
 state_list = []
 pe_list = []
@@ -31,7 +36,7 @@ def circle( xy, radius, color="lightsteelblue", facecolor="green", alpha=.6, ax=
     e.set_alpha( alpha )
 
 c = ContainerInitializer.ContainerInitializer("eight").getContainer()
-f = Force.Force(c)
+f = Force.Force(c, NL)
 i = Integrator.Integrator(DELTA_T, f)
 
 state_list = []
@@ -55,8 +60,11 @@ while count < NUM_TIMESTEPS:
         c.x *= SQUEEZE_FACTOR
         c.y *= SQUEEZE_FACTOR
 
-    i.integrate()
-    pe_list.append(f.pe())
+    #if count % NL_UPDATE_RATE == 0:
+	c.update_nl(NL_DIST)
+
+	i.integrate()
+	pe_list.append(f.pe())
     ke_list.append(f.ke())
 
     #print "AX TIMESTEP " + str(count)

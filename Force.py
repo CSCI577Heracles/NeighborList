@@ -4,8 +4,9 @@ import math
 
 class Force(object):
 
-    def __init__(self, c):
+    def __init__(self, c, NL):
         self.c = c
+		self.NL = NL
 
     def pe(self):
         eps = 1.
@@ -65,61 +66,101 @@ class Force(object):
         return 1 / (d * N * self.ke()) * np.sum(pt)
 
     def ax(self):
-        eps = 1.0
-        sig = 1.0
-        dx = self.c.dx()
-        dy = self.c.dy()
-        dz = self.c.dz()
-        dr = self.c.dr()
+        	eps = 1.0
+        	sig = 1.0
+        	#dx = self.c.dx()
+        	#dy = self.c.dy()
+        	#dz = self.c.dz()
+        	#dr = self.c.dr()
 
-        r_mag = np.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
-        r_mag = np.nan_to_num(r_mag)
-        x_hat = dx / r_mag
-        x_hat = np.nan_to_num(x_hat)
+        	#r_mag = np.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
+        	#r_mag = np.nan_to_num(r_mag)
 
-        #print "r_mag"
-        #print r_mag
+		if self.NL:
+			for x in list(enumerate(self.x)):
+				ax_temp = 0.0
+				neighbors = self.c.neighbor(x[0])
+				# get x dist
+				# get r dist
+				# ax_temp += mag * x dist * r dist
+				for neighbor in neighbors:
+					mag = math.sqrt(self.c.r_dist(x[0], neighbor[0])
+					dx = self.c.x_dist(x[0], neighbor[0])
+					dr = self.c.r_dist(x[0], neighbor[0])
+					ax_temp +- mag * dx / dr
+				return ax_temp
 
-        #print "x_hat"
-        #print x_hat
+		else:
+			eps = 1.0
+        	sig = 1.0
+        	dx = self.c.dx()
+        	dy = self.c.dy()
+        	dz = self.c.dz()
+        	dr = self.c.dr()
 
-        ax = ((24 * eps) / r_mag * (2 * (sig / r_mag) ** 12 - (sig / r_mag) ** 6)) * x_hat
-        ax = np.nan_to_num(ax)
+        	r_mag = np.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
+        	r_mag = np.nan_to_num(r_mag)
+        	x_hat = dx / r_mag
+        	x_hat = np.nan_to_num(x_hat)
 
-        ax = -ax
-        #force = r_hat * (24*eps)/r_mag * (2*(sig/r_mag)**12 - (sig/r_mag)**6)
-        #print "ax: "
-        #print np.sum(ax, axis=1)
-        return np.sum(ax, axis=1)
+        	#print "r_mag"
+        	#print r_mag
+
+        	#print "x_hat"
+        	#print x_hat
+
+        	ax = ((24 * eps) / r_mag * (2 * (sig / r_mag) ** 12 - (sig / r_mag) ** 6)) * x_hat
+        	ax = np.nan_to_num(ax)
+
+        	ax = -ax
+        	#force = r_hat * (24*eps)/r_mag * (2*(sig/r_mag)**12 - (sig/r_mag)**6)
+        	#print "ax: "
+        	#print np.sum(ax, axis=1)
+        	return np.sum(ax, axis=1)
 
     def ay(self):
-        eps = 1.0
-        sig = 1.0
-        dx = self.c.dx()
-        dy = self.c.dy()
-        dz = self.c.dz()
-        dr = self.c.dr()
+		if self.NL:
+			for y in list(enumerate(self.y)):
+				ax_temp = 0.0
+				neighbors = self.c.neighbor(y[0])
+				# get x dist
+				# get r dist
+				# ax_temp += mag * x dist * r dist
+				for neighbor in neighbors:
+					mag = math.sqrt(self.c.r_dist(y[0], neighbor[0])
+					dy = self.c.y_dist(y[0], neighbor[0])
+					dr = self.c.r_dist(y[0], neighbor[0])
+					ay_temp +- mag * dy / dr
+			return ay_temp
 
-        r_mag = np.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
-        r_mag = np.nan_to_num(r_mag)
-        y_hat = dy / r_mag
-        y_hat = np.nan_to_num(y_hat)
+		else:
+			eps = 1.0
+        	sig = 1.0
+        	dx = self.c.dx()
+        	dy = self.c.dy()
+        	dz = self.c.dz()
+        	dr = self.c.dr()
 
-        #print "r_mag"
-        #print r_mag
+        	r_mag = np.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
+        	r_mag = np.nan_to_num(r_mag)
+        	y_hat = dy / r_mag
+        	y_hat = np.nan_to_num(y_hat)
 
-        #print "y_hat"
-        #print y_hat
+        	#print "r_mag"
+        	#print r_mag
 
-        ay = y_hat * ((24 * eps) / r_mag * (2 * (sig / r_mag) ** 12 - (sig / r_mag) ** 6))
-        ay = np.nan_to_num(ay)
+        	#print "y_hat"
+        	#print y_hat
 
-        ay = -ay
+        	ay = y_hat * ((24 * eps) / r_mag * (2 * (sig / r_mag) ** 12 - (sig / r_mag) ** 6))
+        	ay = np.nan_to_num(ay)
 
-        #force = r_hat * (24*eps)/r_mag * (2*(sig/r_mag)**12 - (sig/r_mag)**6)
-        #print "ay: "
-        #print np.sum(ay, axis=1)
-        return np.sum(ay, axis=1)
+        	ay = -ay
+
+        	#force = r_hat * (24*eps)/r_mag * (2*(sig/r_mag)**12 - (sig/r_mag)**6)
+        	#print "ay: "
+        	#print np.sum(ay, axis=1)
+        	return np.sum(ay, axis=1)
 
     def az(self):
         eps = 1.0
