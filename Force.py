@@ -67,6 +67,9 @@ class Force(object):
 
     def ax(self):
         if self.NL:
+            ax = []
+            eps = 1.0
+            sig = 1.0
             for x in list(enumerate(self.c.x)):
                 ax_temp = 0.0
                 neighbors = self.c.neighbor(x[0])
@@ -76,9 +79,12 @@ class Force(object):
                 for neighbor in neighbors:
                     mag = math.sqrt(self.c.r_dist(x[0], neighbor))
                     dx = self.c.x_dist(x[0], neighbor)
-                    dr = self.c.r_dist(x[0], neighbor)
-                    ax_temp +- mag * dx / dr
-                return ax_temp
+                    x_hat = dx / mag
+                    #dr = self.c.r_dist(x[0], neighbor)
+                    #ax_temp +- mag * dx / dr
+                    ax_temp += ((24 * eps) / mag * (2 * (sig / mag) ** 12 - (sig / mag) ** 6)) * x_hat 
+                ax.append(ax_temp)
+                return np.array(ax)
 
         else:
             eps = 1.0
@@ -109,6 +115,10 @@ class Force(object):
 
     def ay(self):
         if self.NL:
+            ay = []
+            eps = 1.0
+            sig = 1.0
+            
             for y in list(enumerate(self.c.y)):
                 ay_temp = 0.0
                 neighbors = self.c.neighbor(y[0])
@@ -118,9 +128,12 @@ class Force(object):
                 for neighbor in neighbors:
                     mag = math.sqrt(self.c.r_dist(y[0], neighbor))
                     dy = self.c.y_dist(y[0], neighbor)
-                    dr = self.c.r_dist(y[0], neighbor)
-                    ay_temp +- mag * dy / dr
-            return ay_temp
+                    #dr = self.c.r_dist(y[0], neighbor)
+                    #ay_temp +- mag * dy / dr
+                    y_hat = dy / mag
+                    ay_temp += y_hat * ((24 * eps) / mag * (2 * (sig / mag) ** 12 - (sig / mag) ** 6))
+                ay.append(ay_temp)
+            return np.array(ay)
 
         else:
             eps = 1.0

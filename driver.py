@@ -11,7 +11,13 @@ FRAME_RATE = 20
 DELTA_T = 0.01
 SQUEEZE = False
 SQUEEZE_FACTOR = 0.997
-NL = False 					# set True for Neighborlist, False for regular
+NL = True                   # set True for Neighborlist, False for regular
+
+if NL:
+    print "Neighborlist ON"
+else:
+    print "Neighborlist OFF"
+
 NL_UPDATE_RATE = 20
 NL_DIST = 2. * 2. ** (1./6.)
 

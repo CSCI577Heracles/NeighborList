@@ -21,7 +21,7 @@ class Container(object):
         self.Lz = 0.
 
     def init_nl(self):
-        self.G = nx.Graph()
+        self.G = nx.DiGraph()
         for element in list(enumerate(self.x)):
             self.G.add_node(element[0])
 
