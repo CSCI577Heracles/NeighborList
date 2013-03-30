@@ -84,7 +84,9 @@ class Force(object):
                     #ax_temp +- mag * dx / dr
                     ax_temp += ((24 * eps) / mag * (2 * (sig / mag) ** 12 - (sig / mag) ** 6)) * x_hat 
                 ax.append(ax_temp)
-            return np.array(ax)
+            
+            ax_array = np.array(ax)
+            return -ax_array
 
         else:
             eps = 1.0
@@ -133,7 +135,8 @@ class Force(object):
                     y_hat = dy / mag
                     ay_temp += y_hat * ((24 * eps) / mag * (2 * (sig / mag) ** 12 - (sig / mag) ** 6))
                 ay.append(ay_temp)
-            return np.array(ay)
+            ay_array = np.array(ay)
+            return -ay_array
 
         else:
             eps = 1.0

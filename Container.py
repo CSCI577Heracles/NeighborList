@@ -27,10 +27,12 @@ class Container(object):
 
     def update_nl(self, dist):
         self.G.remove_edges_from(self.G.edges())
+        print "dr:"
+        print self.dr()
         for row in list(enumerate(self.dr())):
             for col in list(enumerate(row[1])):
                 if col[1] > dist:
-                    self.G.add_edge(col[0], row[0], x=self.x[row[0]]-self.x[col[0]], y=self.y[row[0]]-self.y[col[0]], z=0., r=col[1])
+                    self.G.add_edge(col[0], row[0], x=self.x[col[0]]-self.x[row[0]], y=self.y[col[0]]-self.y[row[0]], z=0., r=col[1])
         print nx.adjacency_matrix(self.G)
 
     def neighbor(self, p):
@@ -115,6 +117,7 @@ class Container(object):
         return dz
 
     def dr(self):
+        # TODO: fix this, no negative values in dr matrix
         #print "dr:"
         #print np.sqrt(self.dx ** 2 + self.dy ** 2 + self.dz **2)
         return self.dx() ** 2 + self.dy() ** 2 + self.dz() ** 2
