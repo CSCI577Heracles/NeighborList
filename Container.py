@@ -30,7 +30,7 @@ class Container(object):
         for row in list(enumerate(self.dr())):
             for col in list(enumerate(row[1])):
                 if col[1] > dist:
-                    self.G.add_edge(row[0], col[0], x=self.x[row[0]]-self.x[col[0]], y=self.y[row[0]]-self.y[col[0]], z=0., r=col[1])
+                    self.G.add_edge(col[0], row[0], x=self.x[row[0]]-self.x[col[0]], y=self.y[row[0]]-self.y[col[0]], z=0., r=col[1])
         print nx.adjacency_matrix(self.G)
 
     def neighbor(self, p):
