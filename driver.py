@@ -69,10 +69,17 @@ while count < NUM_TIMESTEPS:
         c.x *= SQUEEZE_FACTOR
         c.y *= SQUEEZE_FACTOR
 
-    if count % NL_UPDATE_RATE == 0:
+    #if count % NL_UPDATE_RATE == 0:
+    if True:
         c.update_nl(NL_DIST)
 
     i.integrate()
+    print "--------------------------------------"
+    print "Timestep: " + str(count*DELTA_T)
+    print "aX:"
+    print c.ax
+    print "aY:"
+    print c.ay
     pe_list.append(f.pe())
     ke_list.append(f.ke())
 
